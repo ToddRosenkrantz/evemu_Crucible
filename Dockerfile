@@ -2,9 +2,15 @@
 # Always build EVEmu binaries using docker in a reproducible fashion for issue reporting.
 
 # This is a multi Stage Build, we start by makeing the base image we will use.
-FROM quay.io/fedora/fedora:33-x86_64 as base
-RUN dnf groupinstall -y "Development Tools" && dnf install -y cmake git zlib-devel mariadb-devel boost-devel tinyxml-devel utf8cpp-devel mariadb shadow-utils gdb
+#FROM quay.io/fedora/fedora:33-x86_64 as base
+FROM ubuntu as base
 
+#RUN dnf groupinstall -y "Development Tools" && dnf install -y cmake git zlib-devel mariadb-devel boost-devel tinyxml-devel utf8cpp-devel mariadb shadow-utils gdb
+RUN apt-get update
+RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata build-essential cmake git zlib1g-dev libmariadbclient-dev libboost-all-dev libtinyxml-dev libutfcpp-dev mariadb-server libvshadow-utils gdb mc
+
+
+#RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 # Now we use the base image to build the project
 FROM base as app-build
 # We Add what we need for the build, if you need to add more; remember you may need to update .dockerignore

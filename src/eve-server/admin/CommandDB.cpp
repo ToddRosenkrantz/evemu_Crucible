@@ -102,10 +102,10 @@ bool CommandDB::ItemSearch(const char *query, std::map<uint32, std::string> &int
     //grab the "main message" though... the text/plain clause is pretty hackish.
     DBQueryResult result;
     if (!sDatabase.RunQuery(result,
-        " SELECT typeID,typeName"
-        " FROM invTypes"
-        " WHERE"
-        "  typeName rlike '%s'",
+        "SELECT typeID , typeName "
+        "FROM invTypes "
+        "WHERE "
+        "typeName LIKE   '%%%s%%'",
             escaped.c_str()
         ))
     {
